@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="index.js" defer type="module"></script>
+    <title>Scientific Calculator</title>
+</head>
+
+<body>
+    <header>
+        <h1>Scientific Calculator</h1>
+    </header>
+    <div id="calc-body">
+        <p id="result" class="row1">0</p>
+        <input id="input" class="row2" value="0" />
+        <div class="rest-rows flex-buttons-five">
+            <button class="operations" data-symbol="mc">MC</button>
+            <button class="operations" data-symbol="mr">MR</button>
+            <button class="operations" data-symbol="mp">M+</button>
+            <button class="operations" data-symbol="mm">M-</button>
+            <button class="operations" data-symbol="ms">MS</button>
+        </div>
+        <div class="rest-rows flex-buttons-five">
+            <button class="invisibleButton"></button>
+            <button class="invisibleButton"></button>
+            <button class="invisibleButton"></button>
+            <button class="operations" data-symbol="clear">C</button>
+            <button class="operations" data-symbol="remove">◀</button>
+        </div>
+        <div class="rest-rows flex-buttons-five">
+            <button id="genToggleButton" class="toggle-buttons" data-status="off">2<sup class="small">nd</sup></button>
+            <button class="values" data-value="pi">&pi;</button>
+            <button class="special-operators hyp-toggle-off gen-toggle-off" data-symbol="sin">sin</button>
+            <button class="special-operators hyp-toggle-off gen-toggle-off" data-symbol="cos">cos</button>
+            <button class="special-operators hyp-toggle-off gen-toggle-off" data-symbol="tan">tan</button>
+
+            <button class="special-operators hyp-toggle-off gen-toggle-on" data-symbol="asin">sin<sup
+                    class="small">-1</sup></button>
+            <button class="special-operators hyp-toggle-off gen-toggle-on" data-symbol="acos">cos<sup
+                    class="small">-1</sup></button>
+            <button class="special-operators hyp-toggle-off gen-toggle-on" data-symbol="atan">tan<sup
+                    class="small">-1</sup></button>
+
+            <button class="special-operators hyp-toggle-on" data-symbol="sinh">sinh</button>
+            <button class="special-operators hyp-toggle-on" data-symbol="cosh">cosh</button>
+            <button class="special-operators hyp-toggle-on" data-symbol="tanh">tanh</button>
+        </div>
+        <div class="rest-rows flex-buttons-five">
+            <button id="hypToggleButton" class="toggle-buttons" data-status="off">hyp</button>
+            <button class="values" data-value="e">e</button>
+            <button class="special-operators hyp-toggle-off gen-toggle-off" data-symbol="csc">csc</button>
+            <button class="special-operators hyp-toggle-off gen-toggle-off" data-symbol="sec">sec</button>
+            <button class="special-operators hyp-toggle-off gen-toggle-off" data-symbol="cot">cot</button>
+
+            <button class="special-operators hyp-toggle-off gen-toggle-on" data-symbol="acsc">csc<sup
+                    class="small">-1</sup></button>
+            <button class="special-operators hyp-toggle-off gen-toggle-on" data-symbol="asec">sec<sup
+                    class="small">-1</sup></button>
+            <button class="special-operators hyp-toggle-off gen-toggle-on" data-symbol="acot">cot<sup
+                    class="small">-1</sup></button>
+
+            <button class="special-operators hyp-toggle-on" data-symbol="csch">csch</button>
+            <button class="special-operators hyp-toggle-on" data-symbol="sech">sech</button>
+            <button class="special-operators hyp-toggle-on" data-symbol="coth">coth</button>
+        </div>
+        <div class="rest-rows flex-buttons-five">
+            <button class="special-operators gen-toggle-off" data-last data-symbol="square">x<sup
+                    class="small">2</sup></button>
+            <button class="special-operators gen-toggle-on" data-last data-symbol="cube">x<sup
+                    class="small">3</sup></button>
+            <button class="special-operators" data-symbol="inverse"><sup class="small">1</sup>/<sub>x</sub></button>
+            <button class="special-operators" data-last data-symbol="abs">|x|</button>
+            <button class="special-operators gen-toggle-off" data-last data-symbol="ceil">⎡x⎤</button>
+            <button class="special-operators gen-toggle-on" data-last data-symbol="floor">⎣x⎦</button>
+            <button class="special-operators" data-last data-symbol="mod">mod</button>
+        </div>
+        <div class="rest-rows flex-buttons-five">
+            <button class="special-operators gen-toggle-off" data-symbol="sqrt">&Sqrt;x</button>
+            <button class="special-operators gen-toggle-on" data-symbol="qrt"><sup class="small">3</sup>&Sqrt;x</button>
+            <button class="values" data-value="(">(</button>
+            <button class="values" data-value=")">)</button>
+            <button class="operators" data-symbol="fact">n!</button>
+            <button class="operators" data-symbol="div">&div;</button>
+        </div>
+        <div class="rest-rows flex-buttons-five">
+            <button class="special-operators" data-last data-symbol="xy">x<sup class="small">y</sup></button>
+            <button class="values" data-value="7">7</button>
+            <button class="values" data-value="8">8</button>
+            <button class="values" data-value="9">9</button>
+            <button class="operators" data-symbol="mul">x</button>
+        </div>
+        <div class="rest-rows flex-buttons-five">
+            <button class="special-operators gen-toggle-off" data-symbol="10x">10<sup class="small">x</sup></button>
+            <button class="special-operators gen-toggle-on" data-symbol="2x">2<sup>x</sup></button>
+            <button class="values" data-value="4">4</button>
+            <button class="values" data-value="5">5</button>
+            <button class="values" data-value="6">6</button>
+            <button class="operators" data-symbol="sub">-</button>
+        </div>
+        <div class="rest-rows flex-buttons-five">
+            <button class="special-operators" data-symbol="log">log</button>
+            <button class="values" data-value="1">1</button>
+            <button class="values" data-value="2">2</button>
+            <button class="values" data-value="3">3</button>
+            <button class="operators" data-symbol="add">+</button>
+        </div>
+        <div class="rest-rows flex-buttons-five">
+            <button class="special-operators" data-symbol="ln">ln</button>
+            <button class="special-operators" data-last data-symbol="pom"><sup>+</sup>/-</button>
+            <button class="values" data-value="0">0</button>
+            <button class="values" data-value=".">.</button>
+            <button id="equalButton" class="operations" data-symbol="eq">=</button>
+        </div>
+    </div>
+</body>
+
+</html>

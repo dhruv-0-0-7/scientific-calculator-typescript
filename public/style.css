@@ -1,0 +1,153 @@
+/* CSS Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+/* Global */
+
+body {
+    width: 100vw;
+    height: 100vh;
+}
+
+.small {
+    font-size: smaller;
+}
+
+h1 {
+    font-size: 2rem;
+    text-align: center;
+    margin: 2vh 0;
+}
+
+input:focus {
+    border: none;
+    outline: none;
+}
+
+button {
+    border: none;
+    border-radius: 5px;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+.flex-buttons-two {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: 1.5%;
+    padding-left: 1.5%;
+}
+
+.flex-buttons-five {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+/* Calc */
+
+.gen-toggle-on {
+    display: none;
+}
+
+.hyp-toggle-on {
+    display: none;
+}
+
+#equalButton {
+    background-color: cadetblue;
+}
+
+#calc-body {
+    width: 60%;
+    height: 90%;
+    margin: 0 auto;
+    padding-bottom: 0.5vh;
+    border-radius: 5px;
+    background-color: lightgray;
+    display: grid;
+    grid-template-areas: 'row1'
+        'row2'
+        'row3 row3 row3'
+        'row4 row4 row4 row4 row4'
+        'row5 row5'
+        'rest rest rest rest rest'
+        'blank rest rest rest rest'
+        'rest rest rest rest rest'
+        'rest rest rest rest rest'
+        'rest rest rest rest rest'
+        'rest rest rest rest rest'
+        'rest rest rest rest rest'
+    ;
+}
+
+.row1 {
+    grid-area: 'row1';
+    text-align: right;
+    align-self: center;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.row2 {
+    grid-area: 'row2';
+    text-align: right;
+    border: none;
+    background-color: lightgray;
+    color: darkslategray;
+    font-size: 1.3rem;
+    width: 90%;
+    justify-self: center;
+}
+
+.row2:focus {
+    caret-color: transparent;
+}
+
+.row3 {
+    grid-area: 'row3';
+}
+
+.row4 {
+    grid-area: 'row4';
+}
+
+.row5 {
+    grid-area: 'row5';
+}
+
+.row5 button,
+.row3 button {
+    width: 30%;
+    height: 60%;
+}
+
+.rest-rows {
+    grid-area: 'rest';
+}
+
+.rest-rows button,
+.row4 button {
+    width: 19%;
+    height: 92%;
+}
+
+#result {
+    font-size: 2rem;
+}
+
+.invisibleButton {
+    background: transparent;
+}
+
+.invisibleButton:hover {
+    cursor: default;
+}

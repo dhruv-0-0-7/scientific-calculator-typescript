@@ -1,0 +1,14 @@
+{
+  "name": "scientific-calculator",
+  "version": "1.0.0",
+  "description": "## Assignment1 - Scientific Calculator",
+  "main": "index.js",
+  "scripts": {
+    "init": "tsc --init"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "5.0.4"
+  }
+}
