@@ -1,15 +1,17 @@
 import { SYMBOL_TABLE } from './constants.js';
 
+type ExpressionOperatorsType = '^' | '+' | '*' | '-' | '/' | '(';
+
 // Factorial Function - Recursive
-function factorial(number) {
+function factorial(number: number): number {
     if (number === 0) return 1;
     return number * factorial(number - 1);
 }
 
 // Special Operators Evaluation Function
-function evaluateSpecialOperation(operator, expression1, expression2) {
-    expression1 = parseFloat(evaluate(expression1));
-    expression2 = expression2 && parseFloat(expression2);
+function evaluateSpecialOperation(operator: string, expression1: string | number, expression2: string | number) {
+    expression1 = parseFloat(evaluate(expression1 as string));
+    expression2 = expression2 && parseFloat(expression2 as string);
 
     switch (operator) {
         case SYMBOL_TABLE['log']:
@@ -65,25 +67,40 @@ function evaluateSpecialOperation(operator, expression1, expression2) {
         case '!':
             return factorial(expression1);
         case 'mod(':
-            return expression1 % expression2;
+            return expression1 % (expression2 as number);
     }
 }
 
 // Special Operations Evaluation Function
-function evaluateSpecialOperations(expression) {
+function evaluateSpecialOperations(expression: string) {
     /*
     Regular Expression to
     - Parse Special Operators in Expression
     - Parse sub-legal-expressions inside those Special operators
     */
     const specialOperatorsEvaluationRegex = /((?<operator1>(\blog\b|\bln\b|\bsin\b|\bcos\b|\btan\b|\bcsc\b|\bsec\b|\bcot\b|\basin\b|\bacos\b|\batan\b|\bacsc\b|\basec\b|\bacot\b|\bsinh\b|\bcosh\b|\btanh\b|\bcsch\b|\bsech\b|\bcoth\b|√|∛)\()(?<expression1>((\(\d+(\.\d+)?\)|\d+(\.\d+)?|\(\d+(\.\d+)?)(\+|\-|\^|\*|\/)?)+)\))|((?<operator2>(\||\⎡|\⎣))(?<expression2>(\(\-)?(\d+(\.\d+)?)\)?)(\||\⎤|\⎦))|((?<expression3>\d+)(?<operator3>\!))|((\((?<expression4>\d+(\.\d+)?)\)(?<operator4>\bmod\b\()(?<expression5>\d+(\.\d+)?)\)))/;
-    let result;
 
-    while ((result = specialOperatorsEvaluationRegex.exec(expression)) !== null) {
+    interface ResultType extends RegExpExecArray {
+        groups: {
+            operator1?: string,
+            operator2?: string,
+            operator3?: string,
+            operator4?: string,
+            expression1?: string,
+            expression2?: string,
+            expression3?: string,
+            expression4?: string,
+            expression5?: string,
+        },
+        index: number
+    }
+    let result: ResultType;
+
+    while ((result = specialOperatorsEvaluationRegex.exec(expression) as ResultType) !== null) {
         const output = evaluateSpecialOperation(
-            result.groups.operator1 ?? result.groups.operator2 ?? result.groups.operator3 ?? result.groups.operator4,
-            result.groups.expression1 ?? result.groups.expression2 ?? result.groups.expression3 ?? result.groups.expression4,
-            result.groups.expression5);
+            (result.groups.operator1 ?? result.groups.operator2 ?? result.groups.operator3 ?? result.groups.operator4) as string,
+            (result.groups.expression1 ?? result.groups.expression2 ?? result.groups.expression3 ?? result.groups.expression4) as string,
+            result.groups.expression5 as string) as number;
         expression = expression.substr(0, result.index) + output.toString() + expression.substr(result.index + result[0].length);
     }
 
@@ -91,7 +108,7 @@ function evaluateSpecialOperations(expression) {
 }
 
 // Parse Tokens from the Expression
-function parseExpression(expression) {
+function parseExpression(expression: string) {
     expression = evaluateSpecialOperations(expression);
 
     // Regular Expression to parse valid Tokens from expression
@@ -105,7 +122,7 @@ function parseExpression(expression) {
 }
 
 // Function to get Precendence of an Operator (Not Special Operators)
-function getPrecedence(operator) {
+function getPrecedence(operator: ExpressionOperatorsType) {
     switch (operator) {
         case SYMBOL_TABLE['add']:
         case SYMBOL_TABLE['sub']:
@@ -121,10 +138,11 @@ function getPrecedence(operator) {
 }
 
 // Infix to Postfix Expression conversion
-function infixToPostfix(expression) {
-    const operatorsStack = [];
+function infixToPostfix(expression: string | string[]) {
+    const operatorsStack: ExpressionOperatorsType[] = [];
+
     let result = [];
-    expression = parseExpression(expression);
+    expression = parseExpression(expression as string);
     let flag = false;
 
     function operatorsStackPeek() {
@@ -132,7 +150,7 @@ function infixToPostfix(expression) {
     }
 
     expression.forEach(item => {
-        if (isNaN(item)) {
+        if (isNaN(parseFloat(item))) {
             if (item === '(') {  // Left Parenthesis
                 flag = false;
                 operatorsStack.push(item);
@@ -146,11 +164,11 @@ function infixToPostfix(expression) {
             } else {     // Operator
                 if (!flag) result.push('0');
                 if (!result.length) result.push('0');
-                if (!operatorsStack.length) operatorsStack.push(item);
+                if (!operatorsStack.length) operatorsStack.push(item as ExpressionOperatorsType);
                 else {
-                    while (getPrecedence(item) <= getPrecedence(operatorsStackPeek()))
+                    while (getPrecedence(item as ExpressionOperatorsType) <= getPrecedence(operatorsStackPeek()))
                         result.push(operatorsStack.pop());
-                    operatorsStack.push(item);
+                    operatorsStack.push(item as ExpressionOperatorsType);
                 }
             }
         } else {
@@ -163,17 +181,17 @@ function infixToPostfix(expression) {
         result.push(operatorsStack.pop());
     }
 
-    return result;
+    return result as string[];
 }
 
-function postfixEvaluation(expression) {
-    const numbersStack = [];
+function postfixEvaluation(expression: string[]) {
+    const numbersStack: string[] = [];
 
     // Evaluate function for Postfix Expression evaluation
-    function evaluate(operator) {
+    function evaluate(operator: ExpressionOperatorsType) {
         let result = 0;
-        const n2 = parseFloat(numbersStack.pop());
-        const n1 = parseFloat(numbersStack.pop());
+        const n2 = parseFloat(numbersStack.pop() as string);
+        const n1 = parseFloat(numbersStack.pop() as string);
 
         switch (operator) {
             case SYMBOL_TABLE['add']:
@@ -205,7 +223,7 @@ function postfixEvaluation(expression) {
     }
 
     expression.forEach(item => {
-        if (isNaN(item)) evaluate(item);
+        if (isNaN(parseFloat(item))) evaluate(item as ExpressionOperatorsType);
         else numbersStack.push(item);
     });
 
@@ -213,7 +231,7 @@ function postfixEvaluation(expression) {
 }
 
 // Custom Eval function Which will generate output for any Valid Expression possible for this Calculator
-export default function evaluate(expression) {
+export default function evaluate(expression: string) {
     const postfixExpression = infixToPostfix(expression);
     const result = postfixEvaluation(postfixExpression);
     return result;

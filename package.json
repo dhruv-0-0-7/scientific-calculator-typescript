@@ -4,7 +4,7 @@
   "description": "## Assignment1 - Scientific Calculator",
   "main": "index.js",
   "scripts": {
-    "init": "tsc --init"
+    "build": "tsc"
   },
   "author": "",
   "license": "ISC",

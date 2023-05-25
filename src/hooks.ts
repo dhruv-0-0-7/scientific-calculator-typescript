@@ -1,8 +1,8 @@
-const result = document.getElementById('result');
-const input = document.getElementById('input');
+const result = document.getElementById('result') as HTMLParagraphElement;
+const input = document.getElementById('input') as HTMLInputElement;
 
 // Update some value on Screen
-export function useScreen(val) {
+export function useScreen(val: string) {
     if (input.value === '0') {
         input.value = val;
     } else {
@@ -11,7 +11,7 @@ export function useScreen(val) {
 }
 
 // Put Operator on Screen
-export function useOperator(index = 0, val) {
+export function useOperator(index = 0, val: string) {
     input.value = input.value.slice(0, index) + val;
 }
 
@@ -28,6 +28,6 @@ export function removeElement() {
 }
 
 // Update content of Result Screen
-export function showResult(val) {
+export function showResult(val: string) {
     result.innerHTML = val;
 }

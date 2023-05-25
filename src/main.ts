@@ -2,7 +2,7 @@ import Eval from './evaluate';
 import { useScreen, clearScreen, removeElement, useOperator, showResult } from './hooks';
 import { KEYS, SYMBOL_TABLE } from './constants';
 import { getLastValidUnit, validateInputForNumbers, validateInputForOperators } from './validation';
-import { FakeThis } from './types';
+import { FakeThis, OperationsKeys, OperatorsKeys, SymbolKeys } from './types';
 import { memoryClear, memoryAdd, memoryStore, memoryRead, memorySub } from './memoryFunctions';
 
 // Keypress EventListener
@@ -10,23 +10,22 @@ export function keyPressListener(event: KeyboardEvent) {
     const key = event.key;
     function fakeThis(val = key) {
         return {
-            getAttribute() {
-                return val;
-            }
+            getAttribute() { return val; },
+            getAttributeNames() { return [val]; }
         };
     }
 
     if (/\d|\./.test(key) || key === '(' || key === ')')
         valuesListener.call(fakeThis());
     else if (Object.keys(KEYS.operators).includes(key))
-        operatorsListener.call(fakeThis(KEYS.operators[key]));
+        operatorsListener.call(fakeThis(KEYS.operators[key as OperatorsKeys]));
     else if (Object.keys(KEYS.operations).includes(key))
-        operationsListener.call(fakeThis(KEYS.operations[key]));
+        operationsListener.call(fakeThis(KEYS.operations[key as OperationsKeys]));
 }
 
 // type-Values EventListener
 export function valuesListener(this: HTMLButtonElement | FakeThis) {
-    const val = this.getAttribute('data-value');
+    const val = this.getAttribute('data-value') as string;
     const input = (document.getElementById('input') as HTMLInputElement).value;
 
     if (val === ')') useScreen(val);
@@ -72,11 +71,11 @@ export function operationsListener(this: HTMLButtonElement | FakeThis) {
 
 // type-Operators EventListener
 export function operatorsListener(this: HTMLButtonElement | FakeThis) {
-    const symbol = this.getAttribute('data-symbol') as string;
+    const symbol = this.getAttribute('data-symbol');
     const input = (document.getElementById('input') as HTMLInputElement).value;
 
     if (validateInputForOperators(input)) {
-        useScreen(SYMBOL_TABLE[symbol]);
+        useScreen(SYMBOL_TABLE[symbol as SymbolKeys]);
     }
 }
 
@@ -90,10 +89,10 @@ export function specialOperatorsListener(this: HTMLButtonElement | FakeThis) {
         if (this.getAttributeNames().includes('data-last')) {
             if (!validateInputForOperators(input)) return;
             const validUnit = getLastValidUnit(input);
-            const operation = SYMBOL_TABLE[symbol].replace('#', validUnit.value);
+            const operation = SYMBOL_TABLE[symbol as SymbolKeys].replace('#', validUnit.value);
             useOperator(validUnit.index, operation);
         } else {
-            const operation = SYMBOL_TABLE[symbol];
+            const operation = SYMBOL_TABLE[symbol as SymbolKeys];
             useScreen(operation);
         }
     }
@@ -105,10 +104,12 @@ export function toggleFunction(this: HTMLButtonElement) {
         'gen': 'hyp',
         'hyp': 'gen'
     };
-    const identifier = this.getAttribute('id')?.substring(0, 3) as 'gen' | 'hyp';
+    type IdentifierType = keyof typeof temp;
+
+    const identifier = this.getAttribute('id')?.substr(0, 3) as IdentifierType;
     const status = this.getAttribute('data-status');
 
-    function resetOtherToggle(identifier: 'gen' | 'hyp') {
+    function resetOtherToggle(identifier: keyof typeof temp) {
         const elem = document.getElementById(`${identifier}ToggleButton`) as HTMLButtonElement;
         elem.setAttribute('data-status', 'off');
         elem.style.backgroundColor = '#EFEFEF';
@@ -119,7 +120,7 @@ export function toggleFunction(this: HTMLButtonElement) {
     }
 
     if (Object.keys(temp).includes(identifier)) {
-        resetOtherToggle(temp[identifier]);
+        resetOtherToggle(temp[identifier] as IdentifierType);
         this.setAttribute('data-status', status === 'on' ? 'off' : 'on');
         this.style.backgroundColor = status === 'on' ? '#EFEFEF' : 'cornflowerblue';
         let onSelector = `.${identifier}-toggle-${status === 'on' ? 'off' : 'on'}`;
