@@ -4,11 +4,14 @@
   "description": "## Assignment1 - Scientific Calculator",
   "main": "index.js",
   "scripts": {
-    "build": "tsc"
+    "build": "vite build"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "typescript": "5.0.4"
+  },
+  "devDependencies": {
+    "vite": "4.3.8"
   }
 }

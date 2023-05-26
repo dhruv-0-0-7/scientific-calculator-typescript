@@ -4,14 +4,13 @@
 
 ### How to Run this Application ?
 
-- This Assignment utilizes Javascript Modules so just opening the HTML file with Web Browser won't work. It will require a Web Server.
+- Open terminal in Project directory.
 
-- You can use VSCode [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) Extension, which provides a Web server to host Current Working Directory in VSCode.
+- Run `npm install` to install Project Dependencies
 
-- If you have Node.js Installed on your system then,    
-    - You can also use `npx serve <directory_name>` to start a Basic Web Server for Static content serving.
+- Run `npm run build` to build the Bundle
 
-- Thats all. Once the Application is deployed it can be visited on *Localhost* or over *LAN*.
+- Run `npx serve public` to Serve Public Directory and See the output on `http://localhost:3000`
 
 
 ### The flow of Scientific Calculator
